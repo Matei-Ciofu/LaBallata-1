@@ -2,10 +2,10 @@
     const { HOST, USERNAME, PASSWORD, DBNAME, PORT } = process.env;
     console.log();
     const connpool = mysql.createPool({
-        host: "172.26.48.1",
+        host: "172.24.48.1",
         user: "tps",
         password: "ttppss",
-        database: "td"
+        database: "LaBallata"
     }, { debug: true });
     
     connpool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
