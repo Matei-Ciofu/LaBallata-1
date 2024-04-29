@@ -1,6 +1,6 @@
 function endpoint(app, connpool) {
 
-    app.post("/api/Locale", (req, res) => {
+    app.post("/api/locali", (req, res) => {
         var errors = []
         /* controllo dati inseriti
         if (!req.body.description) {
@@ -15,12 +15,12 @@ function endpoint(app, connpool) {
             return;
         }
         var data = {
-            description: req.body.description,
-            status: req.body.status,
+            nome: req.body.nome,
+            cognome: req.body.cognome,
         }
 
-        var sql = 'INSERT INTO Locale (description, status) VALUES (?,?)'
-        var params = [data.description, data.status]
+        var sql = 'INSERT INTO utente  (nome, cognome) VALUES (?,?)'
+        var params = [data.nome, data.cognome]
         connpool.query(sql, params, (error, results) => {
             if (error) {
                 res.status(400).json({ "error": error.message })
@@ -38,8 +38,8 @@ function endpoint(app, connpool) {
 
 
 
-    app.get("/api/Locale", (req, res, next) => {
-        var sql = "select * from Locale"
+    app.get("/api/locali", (req, res, next) => {
+        var sql = "select * from utente"
         var params = []
         connpool.query(sql, params, (err, rows) => {
             if (err) {
@@ -54,8 +54,8 @@ function endpoint(app, connpool) {
     });
 
 
-    app.get("/api/Locale/:id", (req, res) => {
-        var sql = "select * from Locale where Locale_id = ?"
+    app.get("/api/Locali/:id", (req, res) => {
+        var sql = "select * from utente where idutente = ?"
         var params = [req.params.id]
         connpool.query(sql, params, (err, rows) => {
             if (err) {
@@ -70,13 +70,13 @@ function endpoint(app, connpool) {
     });
 
 
-    app.put("/api/Locale/:id", (req, res) => {
+    app.put("/api/locali/:id", (req, res) => {
         var data = {
             description: req.body.description,
             status: req.body.status,
         }
         connpool.execute(
-            `UPDATE Locale set 
+            `UPDATE utente set 
                description = COALESCE(?,description), 
                status = COALESCE(?,status) 
                WHERE Locale_id = ?`,
@@ -99,7 +99,7 @@ function endpoint(app, connpool) {
 
     app.delete("/api/Locale/:id", (req, res) => {
         connpool.execute(
-            'DELETE FROM Locale WHERE Locale_id = ?',
+            'DELETE FROM utente WHERE idutente = ?',
             [req.params.id],
             function (err, result) {
                 if (err){
